@@ -12,7 +12,9 @@ export class AWSService {
       credentials: {
         accessKeyId: this.options.accessKeyId,
         secretAccessKey: this.options.secretAccessKey
-      }
+      },
+      region: this.options.region,
+      endpoint: this.options.endpoint
     });
   }
 
