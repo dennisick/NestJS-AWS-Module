@@ -1,6 +1,7 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Module, Global } from '@nestjs/common';
 import { AWSService } from './aws.service';
 
+@Global()
 @Module({})
 export class AWSModule {
 
