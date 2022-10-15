@@ -36,10 +36,10 @@ let AWSService = class AWSService {
                 const name = '#' + key.toUpperCase();
                 const valueName = ':' + key;
                 if ((index - 1) === Object.keys(data).length) {
-                    input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName;
+                    input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName + ', ';
                 }
                 else {
-                    input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName + ', ';
+                    input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName;
                 }
                 input.ExpressionAttributeNames[name] = key;
                 input.ExpressionAttributeValues[valueName] = data[key];
