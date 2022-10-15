@@ -19,11 +19,11 @@ export class AWSService {
     });
   }
 
-  getUpdateExpression(tableName: string, key: DocumentClient.Key, data: Object): DocumentClient.UpdateItemInput {
+  getUpdateInput(tableName: string, key: DocumentClient.Key, data: Object): DocumentClient.UpdateItemInput {
     const input: DocumentClient.UpdateItemInput = {
       TableName: tableName,
       Key: key,
-      UpdateExpression: '',
+      UpdateExpression: 'SET ',
       ExpressionAttributeNames: {
 
       },
@@ -38,9 +38,9 @@ export class AWSService {
         const valueName = ':' + key;
 
         if ((index) === (Object.keys(data).length - 1)) {
-          input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName;
+          input.UpdateExpression = input.UpdateExpression + name + ' = ' + valueName;
         } else{
-          input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName  + ', ';
+          input.UpdateExpression = input.UpdateExpression + name + ' = ' + valueName  + ', ';
         }
         
         input.ExpressionAttributeNames[name] = key;

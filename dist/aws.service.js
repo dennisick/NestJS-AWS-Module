@@ -23,11 +23,11 @@ let AWSService = class AWSService {
             endpoint: this.options.endpoint
         });
     }
-    getUpdateExpression(tableName, key, data) {
+    getUpdateInput(tableName, key, data) {
         const input = {
             TableName: tableName,
             Key: key,
-            UpdateExpression: '',
+            UpdateExpression: 'SET ',
             ExpressionAttributeNames: {},
             ExpressionAttributeValues: {}
         };
@@ -36,10 +36,10 @@ let AWSService = class AWSService {
                 const name = '#' + key.toUpperCase();
                 const valueName = ':' + key;
                 if ((index) === (Object.keys(data).length - 1)) {
-                    input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName;
+                    input.UpdateExpression = input.UpdateExpression + name + ' = ' + valueName;
                 }
                 else {
-                    input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName + ', ';
+                    input.UpdateExpression = input.UpdateExpression + name + ' = ' + valueName + ', ';
                 }
                 input.ExpressionAttributeNames[name] = key;
                 input.ExpressionAttributeValues[valueName] = data[key];
