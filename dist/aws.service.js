@@ -23,6 +23,13 @@ let AWSService = class AWSService {
             endpoint: this.options.endpoint
         });
     }
+    getUpdateExpression(dataExpressions) {
+        let updateExpression = '';
+        dataExpressions.forEach((expression, object) => {
+            console.log(expression, object);
+        });
+        return updateExpression;
+    }
 };
 __decorate([
     (0, common_1.Inject)('AWS_OPTIONS'),

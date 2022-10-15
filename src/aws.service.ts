@@ -1,5 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
+import { DataExpressions } from './types/aws';
 
 @Injectable({  })
 export class AWSService {
@@ -16,6 +17,16 @@ export class AWSService {
       region: this.options.region,
       endpoint: this.options.endpoint
     });
+  }
+
+  getUpdateExpression(dataExpressions: DataExpressions): string {
+    let updateExpression = '';
+
+    dataExpressions.forEach((expression, object) => {
+      console.log(expression, object);
+    });
+
+    return updateExpression;
   }
 
 }
