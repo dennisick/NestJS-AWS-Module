@@ -23,12 +23,24 @@ let AWSService = class AWSService {
             endpoint: this.options.endpoint
         });
     }
-    getUpdateExpression(dataExpressions) {
-        let updateExpression = '';
-        dataExpressions.forEach((expression, object) => {
-            console.log(expression, object);
+    getUpdateExpression(tableName, key, data) {
+        const input = {
+            TableName: tableName,
+            Key: key,
+            UpdateExpression: '',
+            ExpressionAttributeNames: {},
+            ExpressionAttributeValues: {}
+        };
+        Object.keys(data).forEach((key) => {
+            if (data[key]) {
+                const name = '#' + key.toUpperCase();
+                const valueName = ':' + key;
+                input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName + ',';
+                input.ExpressionAttributeNames[name] = key;
+                input.ExpressionAttributeValues[valueName] = data[key];
+            }
         });
-        return updateExpression;
+        return input;
     }
 };
 __decorate([

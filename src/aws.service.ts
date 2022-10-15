@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
-import { DataExpressions } from './types/aws';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
 @Injectable({  })
 export class AWSService {
@@ -19,14 +19,31 @@ export class AWSService {
     });
   }
 
-  getUpdateExpression(dataExpressions: DataExpressions): string {
-    let updateExpression = '';
+  getUpdateExpression(tableName: string, key: DocumentClient.Key, data: Object): DocumentClient.UpdateItemInput {
+    const input: DocumentClient.UpdateItemInput = {
+      TableName: tableName,
+      Key: key,
+      UpdateExpression: '',
+      ExpressionAttributeNames: {
 
-    dataExpressions.forEach((expression, object) => {
-      console.log(expression, object);
+      },
+      ExpressionAttributeValues: {
+
+      }
+    };
+
+    Object.keys(data).forEach((key) => {
+      if (data[key]) {
+        const name = '#' + key.toUpperCase();
+        const valueName = ':' + key;
+
+        input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName + ','
+        input.ExpressionAttributeNames[name] = key;
+        input.ExpressionAttributeValues[valueName] = data[key];
+      }
     });
 
-    return updateExpression;
+    return input;
   }
 
 }

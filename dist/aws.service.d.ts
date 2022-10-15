@@ -1,7 +1,7 @@
 import * as AWS from 'aws-sdk';
-import { DataExpressions } from './types/aws';
+import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 export declare class AWSService {
     private readonly options;
     getDynamoClient(): AWS.DynamoDB.DocumentClient;
-    getUpdateExpression(dataExpressions: DataExpressions): string;
+    getUpdateExpression(tableName: string, key: DocumentClient.Key, data: Object): DocumentClient.UpdateItemInput;
 }
