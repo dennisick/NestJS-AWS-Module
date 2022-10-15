@@ -32,12 +32,17 @@ export class AWSService {
       }
     };
 
-    Object.keys(data).forEach((key) => {
+    Object.keys(data).forEach((key, index) => {
       if (data[key]) {
         const name = '#' + key.toUpperCase();
         const valueName = ':' + key;
 
-        input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName + ','
+        if ((index - 1) === Object.keys(data).length) {
+          input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName;
+        } else{
+          input.UpdateExpression = input.UpdateExpression + 'SET ' + name + ' = ' + valueName + ', ';
+        }
+        
         input.ExpressionAttributeNames[name] = key;
         input.ExpressionAttributeValues[valueName] = data[key];
       }
