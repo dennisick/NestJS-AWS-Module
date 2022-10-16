@@ -49,7 +49,7 @@ let AWSService = class AWSService {
             input.ExpressionAttributeValues[valueName] = data[key];
         });
         if (remove.length > 0) {
-            input.UpdateExpression = input.UpdateExpression + 'REMOVE ';
+            input.UpdateExpression = input.UpdateExpression + ', REMOVE ';
             remove.forEach((key, index) => {
                 const name = '#' + key.toUpperCase();
                 if (index === (Object.keys(remove).length - 1)) {
