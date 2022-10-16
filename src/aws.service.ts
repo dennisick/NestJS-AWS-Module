@@ -32,9 +32,7 @@ export class AWSService {
       }
     };
 
-    console.log(data);
     Object.keys(data).forEach((key, index) => {
-      if (data[key]) {
         const name = '#' + key.toUpperCase();
         const valueName = ':' + key;
 
@@ -46,7 +44,6 @@ export class AWSService {
         
         input.ExpressionAttributeNames[name] = key;
         input.ExpressionAttributeValues[valueName] = data[key];
-      }
     });
 
     return input;

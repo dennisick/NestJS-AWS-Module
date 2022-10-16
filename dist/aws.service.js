@@ -31,20 +31,17 @@ let AWSService = class AWSService {
             ExpressionAttributeNames: {},
             ExpressionAttributeValues: {}
         };
-        console.log(data);
         Object.keys(data).forEach((key, index) => {
-            if (data[key]) {
-                const name = '#' + key.toUpperCase();
-                const valueName = ':' + key;
-                if ((index) === (Object.keys(data).length - 1)) {
-                    input.UpdateExpression = input.UpdateExpression + name + ' = ' + valueName;
-                }
-                else {
-                    input.UpdateExpression = input.UpdateExpression + name + ' = ' + valueName + ', ';
-                }
-                input.ExpressionAttributeNames[name] = key;
-                input.ExpressionAttributeValues[valueName] = data[key];
+            const name = '#' + key.toUpperCase();
+            const valueName = ':' + key;
+            if ((index) === (Object.keys(data).length - 1)) {
+                input.UpdateExpression = input.UpdateExpression + name + ' = ' + valueName;
             }
+            else {
+                input.UpdateExpression = input.UpdateExpression + name + ' = ' + valueName + ', ';
+            }
+            input.ExpressionAttributeNames[name] = key;
+            input.ExpressionAttributeValues[valueName] = data[key];
         });
         return input;
     }
