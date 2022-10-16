@@ -35,15 +35,12 @@ export class AWSService {
     const set = Object.keys(data).filter(key => data[key]);
     const remove = Object.keys(data).filter(key => !data[key]);
 
-    console.log(set);
-    console.log(remove);
-
     input.UpdateExpression = 'SET ';
     set.forEach((key, index) => {
         const name = '#' + key.toUpperCase();
         const valueName = ':' + key;
 
-        if ((index) === (Object.keys(set).length - 1)) {
+        if ((index) === (set.length - 1)) {
           input.UpdateExpression = input.UpdateExpression + name + ' = ' + valueName;
         } else {
           input.UpdateExpression = input.UpdateExpression + name + ' = ' + valueName  + ', ';
@@ -58,7 +55,7 @@ export class AWSService {
       remove.forEach((key, index) => {
         const name = '#' + key.toUpperCase();
 
-        if (index === (Object.keys(remove).length - 1)) {
+        if (index === (remove.length - 1)) {
           input.UpdateExpression = input.UpdateExpression + name;
         } else {
           input.UpdateExpression = input.UpdateExpression + name + ', ';
