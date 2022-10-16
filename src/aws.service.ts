@@ -54,7 +54,7 @@ export class AWSService {
     });
 
     if (remove.length > 0) {
-      input.UpdateExpression = input.UpdateExpression + ', REMOVE ';
+      input.UpdateExpression = input.UpdateExpression + ' REMOVE ';
       remove.forEach((key, index) => {
         const name = '#' + key.toUpperCase();
 
