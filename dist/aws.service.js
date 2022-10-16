@@ -31,6 +31,7 @@ let AWSService = class AWSService {
             ExpressionAttributeNames: {},
             ExpressionAttributeValues: {}
         };
+        console.log(data);
         Object.keys(data).forEach((key, index) => {
             if (data[key]) {
                 const name = '#' + key.toUpperCase();
