@@ -22,7 +22,8 @@ export class AWSService {
   getUpdateInput(tableName: string, key: DocumentClient.Key, data: Object): DocumentClient.UpdateItemInput {
     const input: DocumentClient.UpdateItemInput = {
       TableName: tableName,
-      Key: key
+      Key: key,
+      UpdateExpression: ''
     };
 
     const set = Object.keys(data).filter(key => data[key]);
@@ -30,6 +31,14 @@ export class AWSService {
 
     input.UpdateExpression = 'SET ';
     set.forEach((key, index) => {
+      if (!input.ExpressionAttributeNames) {
+        input.ExpressionAttributeNames = {};
+      }
+
+      if (!input.ExpressionAttributeValues) {
+        input.ExpressionAttributeValues = {};
+      }
+
         const name = '#' + key.toUpperCase();
         const valueName = ':' + key;
 
@@ -44,6 +53,10 @@ export class AWSService {
     });
 
     if (remove.length > 0) {
+      if (!input.ExpressionAttributeNames) {
+        input.ExpressionAttributeNames = {};
+      }
+
       input.UpdateExpression = input.UpdateExpression + ' REMOVE ';
       remove.forEach((key, index) => {
         const name = '#' + key.toUpperCase();
