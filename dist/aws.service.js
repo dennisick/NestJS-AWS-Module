@@ -26,10 +26,7 @@ let AWSService = class AWSService {
     getUpdateInput(tableName, key, data) {
         const input = {
             TableName: tableName,
-            Key: key,
-            UpdateExpression: '',
-            ExpressionAttributeNames: {},
-            ExpressionAttributeValues: {}
+            Key: key
         };
         const set = Object.keys(data).filter(key => data[key]);
         const remove = Object.keys(data).filter(key => !data[key]);

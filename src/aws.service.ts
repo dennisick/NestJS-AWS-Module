@@ -22,14 +22,7 @@ export class AWSService {
   getUpdateInput(tableName: string, key: DocumentClient.Key, data: Object): DocumentClient.UpdateItemInput {
     const input: DocumentClient.UpdateItemInput = {
       TableName: tableName,
-      Key: key,
-      UpdateExpression: '',
-      ExpressionAttributeNames: {
-
-      },
-      ExpressionAttributeValues: {
-
-      }
+      Key: key
     };
 
     const set = Object.keys(data).filter(key => data[key]);
