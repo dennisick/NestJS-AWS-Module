@@ -27,18 +27,16 @@ let AWSService = class AWSService {
         const input = {
             TableName: tableName,
             Key: key,
-            UpdateExpression: ''
+            UpdateExpression: '',
+            ExpressionAttributeNames: {}
         };
         const set = Object.keys(data).filter(key => data[key]);
         const remove = Object.keys(data).filter(key => !data[key]);
-        input.UpdateExpression = 'SET ';
+        if (set.length > 0) {
+            input.UpdateExpression = 'SET ';
+            input.ExpressionAttributeValues = {};
+        }
         set.forEach((key, index) => {
-            if (!input.ExpressionAttributeNames) {
-                input.ExpressionAttributeNames = {};
-            }
-            if (!input.ExpressionAttributeValues) {
-                input.ExpressionAttributeValues = {};
-            }
             const name = '#' + key.toUpperCase();
             const valueName = ':' + key;
             if ((index) === (set.length - 1)) {
