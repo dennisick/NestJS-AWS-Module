@@ -16,5 +16,5 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
 Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./aws.module"), exports);
 __exportStar(require("./aws.service"), exports);
-__exportStar(require("./interfaces/aws-module.options.interfaces"), exports);
+__exportStar(require("./aws-module.options.interfaces"), exports);
 //# sourceMappingURL=index.js.map
