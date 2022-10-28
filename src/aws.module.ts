@@ -2,12 +2,13 @@ import { DynamicModule, Module, Global, Provider } from '@nestjs/common';
 import { AWSService } from './aws.service';
 import { AWSModuleAsyncOptions, AWSModuleOptions, AWSOptionsFactory } from './aws.interfaces';
 
+@Global()
 @Module({})
 export class AWSModule {
 
   static register(options: AWSModuleOptions): DynamicModule {
     return {
-      global: true,
+      global: options.isGlobal,
       module: AWSModule,
       providers: [
         {
@@ -22,7 +23,7 @@ export class AWSModule {
 
   static registerAsync(options: AWSModuleAsyncOptions): DynamicModule {
     return {
-      global: true,
+      global: options.isGlobal,
       module: AWSModule,
       imports: options.imports || [],
       providers: this.createAsyncProviders(options)
