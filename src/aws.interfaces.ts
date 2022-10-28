@@ -5,6 +5,7 @@ export interface AWSModuleOptions {
     secretKey: string;
     region: string;
     isGlobal?: boolean;
+    endpoint?: string;
 }
 
 export interface AWSOptionsFactory {

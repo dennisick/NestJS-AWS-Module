@@ -2,7 +2,6 @@ import { DynamicModule, Module, Global, Provider } from '@nestjs/common';
 import { AWSService } from './aws.service';
 import { AWSModuleAsyncOptions, AWSModuleOptions, AWSOptionsFactory } from './aws.interfaces';
 
-@Global()
 @Module({})
 export class AWSModule {
 

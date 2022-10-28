@@ -1,18 +1,19 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import { AWSModuleOptions } from './aws.interfaces';
 
 @Injectable({  })
 export class AWSService {
 
   @Inject('AWS_OPTIONS') 
-  private readonly options: Record<string, any>
+  private readonly options: AWSModuleOptions;
 
   getDynamoClient(): AWS.DynamoDB.DocumentClient {
     return new AWS.DynamoDB.DocumentClient({
       credentials: {
         accessKeyId: this.options.accessKeyId,
-        secretAccessKey: this.options.secretAccessKey
+        secretAccessKey: this.options.secretKey
       },
       region: this.options.region,
       endpoint: this.options.endpoint

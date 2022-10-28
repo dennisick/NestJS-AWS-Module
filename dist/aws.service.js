@@ -17,7 +17,7 @@ let AWSService = class AWSService {
         return new AWS.DynamoDB.DocumentClient({
             credentials: {
                 accessKeyId: this.options.accessKeyId,
-                secretAccessKey: this.options.secretAccessKey
+                secretAccessKey: this.options.secretKey
             },
             region: this.options.region,
             endpoint: this.options.endpoint
