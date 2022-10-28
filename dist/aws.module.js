@@ -24,6 +24,39 @@ let AWSModule = AWSModule_1 = class AWSModule {
             exports: [aws_service_1.AWSService]
         };
     }
+    static registerAsync(options) {
+        return {
+            module: AWSModule_1,
+            imports: options.imports || [],
+            providers: this.createAsyncProviders(options)
+        };
+    }
+    static createAsyncProviders(options) {
+        if (options.useExisting || options.useFactory) {
+            return [this.createAsyncOptionsProvider(options)];
+        }
+        return [
+            this.createAsyncOptionsProvider(options),
+            {
+                provide: options.useClass,
+                useClass: options.useClass
+            }
+        ];
+    }
+    static createAsyncOptionsProvider(options) {
+        if (options.useFactory) {
+            return {
+                provide: 'AWS_OPTIONS',
+                useFactory: options.useFactory,
+                inject: options.inject || []
+            };
+        }
+        return {
+            provide: 'AWS_OPTIONS',
+            useFactory: async (optionsFactory) => await optionsFactory.createAWSOptions(),
+            inject: [options.useExisting || options.useClass]
+        };
+    }
 };
 AWSModule = AWSModule_1 = __decorate([
     (0, common_1.Global)(),
