@@ -13,6 +13,7 @@ const aws_service_1 = require("./aws.service");
 let AWSModule = AWSModule_1 = class AWSModule {
     static register(options) {
         return {
+            global: true,
             module: AWSModule_1,
             providers: [
                 {
@@ -26,6 +27,7 @@ let AWSModule = AWSModule_1 = class AWSModule {
     }
     static registerAsync(options) {
         return {
+            global: true,
             module: AWSModule_1,
             imports: options.imports || [],
             providers: this.createAsyncProviders(options)
@@ -59,7 +61,6 @@ let AWSModule = AWSModule_1 = class AWSModule {
     }
 };
 AWSModule = AWSModule_1 = __decorate([
-    (0, common_1.Global)(),
     (0, common_1.Module)({})
 ], AWSModule);
 exports.AWSModule = AWSModule;
