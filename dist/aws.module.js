@@ -31,7 +31,7 @@ let AWSModule = AWSModule_1 = class AWSModule {
             module: AWSModule_1,
             imports: options.imports || [],
             exports: [aws_service_1.AWSService],
-            providers: this.createAsyncProviders(options)
+            providers: [...this.createAsyncProviders(options), aws_service_1.AWSService]
         };
     }
     static createAsyncProviders(options) {
