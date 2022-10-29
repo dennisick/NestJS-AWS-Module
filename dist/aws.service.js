@@ -24,7 +24,15 @@ let AWSService = class AWSService {
         });
     }
     getEmailClient() {
-        return new AWS.SES({ apiVersion: '2010-12-01' });
+        return new AWS.SES({
+            apiVersion: '2010-12-01',
+            credentials: {
+                accessKeyId: this.options.accessKeyId,
+                secretAccessKey: this.options.secretKey
+            },
+            region: this.options.region,
+            endpoint: this.options.endpoint
+        });
     }
     getUpdateInput(tableName, key, data) {
         const input = {

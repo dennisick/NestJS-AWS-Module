@@ -21,7 +21,15 @@ export class AWSService {
   }
 
   getEmailClient(): AWS.SES {
-    return new AWS.SES({ apiVersion: '2010-12-01' });
+    return new AWS.SES({ 
+      apiVersion: '2010-12-01', 
+      credentials: {
+        accessKeyId: this.options.accessKeyId,
+        secretAccessKey: this.options.secretKey
+      },
+      region: this.options.region,
+      endpoint: this.options.endpoint 
+    });
   }
 
   getUpdateInput(tableName: string, key: DocumentClient.Key, data: Object): DocumentClient.UpdateItemInput {
