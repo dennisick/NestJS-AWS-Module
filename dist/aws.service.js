@@ -39,7 +39,10 @@ let AWSService = class AWSService {
             TableName: tableName,
             Key: key,
             UpdateExpression: '',
-            ExpressionAttributeNames: {}
+            ConditionalOperator: 'attribute_exists(#pk)',
+            ExpressionAttributeNames: {
+                "#pk": 'PK'
+            }
         };
         const set = Object.keys(data).filter(key => data[key]);
         const remove = Object.keys(data).filter(key => !data[key]);
