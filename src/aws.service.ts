@@ -20,6 +20,10 @@ export class AWSService {
     });
   }
 
+  getEmailClient(): AWS.SES {
+    return new AWS.SES({ apiVersion: '2010-12-01' });
+  }
+
   getUpdateInput(tableName: string, key: DocumentClient.Key, data: Object): DocumentClient.UpdateItemInput {
     const input: DocumentClient.UpdateItemInput = {
       TableName: tableName,

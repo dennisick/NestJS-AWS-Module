@@ -23,6 +23,9 @@ let AWSService = class AWSService {
             endpoint: this.options.endpoint
         });
     }
+    getEmailClient() {
+        return new AWS.SES({ apiVersion: '2010-12-01' });
+    }
     getUpdateInput(tableName, key, data) {
         const input = {
             TableName: tableName,
