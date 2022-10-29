@@ -37,7 +37,7 @@ export class AWSService {
       TableName: tableName,
       Key: key,
       UpdateExpression: '',
-      ConditionalOperator: 'attribute_exists(#pk)',
+      ConditionExpression: 'attribute_exists(#pk)',
       ExpressionAttributeNames: {
         "#pk": 'PK'
       }
