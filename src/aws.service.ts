@@ -37,10 +37,8 @@ export class AWSService {
       TableName: tableName,
       Key: key,
       UpdateExpression: '',
-      ConditionExpression: 'attribute_exists(#pk)',
-      ExpressionAttributeNames: {
-        "#pk": 'PK'
-      }
+      ConditionExpression: '',
+      ExpressionAttributeNames: {}
     };
 
     const set = Object.keys(data).filter(key => data[key]);
