@@ -39,7 +39,6 @@ let AWSService = class AWSService {
             TableName: tableName,
             Key: key,
             UpdateExpression: '',
-            ConditionExpression: '',
             ExpressionAttributeNames: {}
         };
         const set = Object.keys(data).filter(key => data[key]);

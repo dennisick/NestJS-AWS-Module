@@ -37,7 +37,6 @@ export class AWSService {
       TableName: tableName,
       Key: key,
       UpdateExpression: '',
-      ConditionExpression: '',
       ExpressionAttributeNames: {}
     };
 
