@@ -107,7 +107,7 @@ export class AWSService {
             break;
         }
 
-        if (fIndex >= (filter.filters.length - 1)) {
+        if (fIndex < (filter.filters.length - 1)) {
           filterExpression = filterExpression + ' ' + filter.condition + ' ';
         }
 
@@ -116,7 +116,7 @@ export class AWSService {
       });
       filterExpression = filterExpression + ')';
 
-      if (index >= (filters.length - 1)) {
+      if (index < (filters.length - 1)) {
         filterExpression = filterExpression + ' ' + 'AND' + ' ';
       }
 

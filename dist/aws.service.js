@@ -97,14 +97,14 @@ let AWSService = class AWSService {
                         filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
                         break;
                 }
-                if (fIndex >= (filter.filters.length - 1)) {
+                if (fIndex < (filter.filters.length - 1)) {
                     filterExpression = filterExpression + ' ' + filter.condition + ' ';
                 }
                 expressionNames['#' + keyExpression] = f.key;
                 expressionValues[':' + keyExpression] = f.value;
             });
             filterExpression = filterExpression + ')';
-            if (index >= (filters.length - 1)) {
+            if (index < (filters.length - 1)) {
                 filterExpression = filterExpression + ' ' + 'AND' + ' ';
             }
         });
