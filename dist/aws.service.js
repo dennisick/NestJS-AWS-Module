@@ -79,7 +79,7 @@ let AWSService = class AWSService {
         return input;
     }
     getQueryFilterExpression(filters, condition) {
-        if (filters.length < 1) {
+        if (!filters || filters.length < 1) {
             return { filterExpression: undefined, expressionNames: undefined, expressionValues: undefined };
         }
         let filterExpression = '';
