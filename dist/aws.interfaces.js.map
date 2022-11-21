@@ -1,1 +1,1 @@
-{"version":3,"file":"aws.interfaces.js","sourceRoot":"","sources":["../src/aws.interfaces.ts"],"names":[],"mappings":""}
+{"version":3,"file":"aws.interfaces.js","sourceRoot":"","sources":["../src/aws.interfaces.ts"],"names":[],"mappings":";;;AAsBA,IAAY,cAaX;AAbD,WAAY,cAAc;IACtB,2BAAS,CAAA;IACT,2BAAS,CAAA;IACT,2BAAS,CAAA;IACT,2BAAS,CAAA;IACT,2BAAS,CAAA;IACT,uCAAqB,CAAA;IACrB,+BAAa,CAAA;IACb,uCAAqB,CAAA;IACrB,+CAA6B,CAAA;IAC7B,6CAA0B,CAAA;IAC1B,2BAAS,CAAA;IACT,qCAAmB,CAAA;AACvB,CAAC,EAbW,cAAc,GAAd,sBAAc,KAAd,sBAAc,QAazB"}

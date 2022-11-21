@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import { AWSModuleOptions } from './aws.interfaces';
+import exp from 'constants';
+import { AWSModuleOptions, FilterOperator, QueryFilter } from './aws.interfaces';
 
 @Injectable({  })
 export class AWSService {
@@ -81,6 +82,35 @@ export class AWSService {
     }
 
     return input;
+  
+  }
+
+  getQueryFilterExpression(filters: QueryFilter[], condition: 'AND' | 'OR') {
+    let filterExpression = '';
+    let expressionNames = {};
+    let expressionValues = {};
+
+    filters.forEach((filter, index) => {
+      const keyExpression = filter.key.toLowerCase();
+
+      switch (filter.operator) {
+        case FilterOperator.EQ:
+          filterExpression = filterExpression + '#' + keyExpression + ' = :' + keyExpression;
+          break;
+        case FilterOperator.CONTAINS:
+          filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
+          break;
+      }
+
+      if (index < (filters.length - 1)) {
+        filterExpression = filterExpression + ' ' + condition + ' ';
+      }
+
+      expressionNames['#' + keyExpression] = filter.key;
+      expressionValues[':' + keyExpression] = filter.value;
+    });
+
+    
   }
 
 }

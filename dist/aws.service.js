@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AWSService = void 0;
 const common_1 = require("@nestjs/common");
 const AWS = require("aws-sdk");
+const aws_interfaces_1 = require("./aws.interfaces");
 let AWSService = class AWSService {
     getDynamoClient() {
         return new AWS.DynamoDB.DocumentClient({
@@ -76,6 +77,27 @@ let AWSService = class AWSService {
             });
         }
         return input;
+    }
+    getQueryFilterExpression(filters, condition) {
+        let filterExpression = '';
+        let expressionNames = {};
+        let expressionValues = {};
+        filters.forEach((filter, index) => {
+            const keyExpression = filter.key.toLowerCase();
+            switch (filter.operator) {
+                case aws_interfaces_1.FilterOperator.EQ:
+                    filterExpression = filterExpression + '#' + keyExpression + ' = :' + keyExpression;
+                    break;
+                case aws_interfaces_1.FilterOperator.CONTAINS:
+                    filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
+                    break;
+            }
+            if (index < (filters.length - 1)) {
+                filterExpression = filterExpression + ' ' + condition + ' ';
+            }
+            expressionNames['#' + keyExpression] = filter.key;
+            expressionValues[':' + keyExpression] = filter.value;
+        });
     }
 };
 __decorate([
