@@ -36,11 +36,11 @@ export interface QueryFilter {
     value: any;
 }
 export interface GetQueryFilterExpression {
-    filterExpression: string;
-    expressionNames: {
+    filterExpression?: string;
+    expressionNames?: {
         [key: string]: any;
     };
-    expressionValues: {
+    expressionValues?: {
         [key: string]: any;
     };
 }

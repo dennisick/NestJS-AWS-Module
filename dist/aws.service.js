@@ -79,6 +79,9 @@ let AWSService = class AWSService {
         return input;
     }
     getQueryFilterExpression(filters, condition) {
+        if (filters.length < 1) {
+            return { filterExpression: undefined, expressionNames: undefined, expressionValues: undefined };
+        }
         let filterExpression = '';
         let expressionNames = {};
         let expressionValues = {};

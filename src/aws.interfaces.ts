@@ -42,8 +42,8 @@ export interface QueryFilter {
 }
 
 export interface GetQueryFilterExpression {
-    filterExpression: string;
-    expressionNames: {[key: string]: any};
-    expressionValues: {[key: string]: any};
+    filterExpression?: string;
+    expressionNames?: {[key: string]: any};
+    expressionValues?: {[key: string]: any};
 
 }

@@ -85,6 +85,10 @@ export class AWSService {
   }
 
   getQueryFilterExpression(filters: QueryFilter[], condition: 'AND' | 'OR'): GetQueryFilterExpression {
+    if (filters.length < 1) {
+      return { filterExpression: undefined, expressionNames: undefined, expressionValues: undefined };
+    }
+
     let filterExpression = '';
     let expressionNames = {};
     let expressionValues = {};
