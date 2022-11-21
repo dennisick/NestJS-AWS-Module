@@ -86,20 +86,27 @@ let AWSService = class AWSService {
         let expressionNames = {};
         let expressionValues = {};
         filters.forEach((filter, index) => {
-            const keyExpression = filter.key.toLowerCase();
-            if (index > 0) {
-                filterExpression = filterExpression + ' ' + filter.condition + ' ';
+            filterExpression = filterExpression + '(';
+            filter.filters.forEach((f, fIndex) => {
+                const keyExpression = f.key.toLowerCase();
+                switch (f.operator) {
+                    case aws_interfaces_1.FilterOperator.EQ:
+                        filterExpression = filterExpression + '#' + keyExpression + ' = :' + keyExpression;
+                        break;
+                    case aws_interfaces_1.FilterOperator.CONTAINS:
+                        filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
+                        break;
+                }
+                if (fIndex >= (filter.filters.length - 1)) {
+                    filterExpression = filterExpression + ' ' + filter.condition + ' ';
+                }
+                expressionNames['#' + keyExpression] = f.key;
+                expressionValues[':' + keyExpression] = f.value;
+            });
+            filterExpression = filterExpression + ')';
+            if (index >= (filters.length - 1)) {
+                filterExpression = filterExpression + ' ' + 'AND' + ' ';
             }
-            switch (filter.operator) {
-                case aws_interfaces_1.FilterOperator.EQ:
-                    filterExpression = filterExpression + '#' + keyExpression + ' = :' + keyExpression;
-                    break;
-                case aws_interfaces_1.FilterOperator.CONTAINS:
-                    filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
-                    break;
-            }
-            expressionNames['#' + keyExpression] = filter.key;
-            expressionValues[':' + keyExpression] = filter.value;
         });
         return { filterExpression, expressionNames, expressionValues };
     }

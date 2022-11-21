@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import { AWSModuleOptions, FilterOperator, GetQueryFilterExpression, QueryFilter } from './aws.interfaces';
+import { AWSModuleOptions, FilterOperator, GetQueryFilterExpression, QueryFilter, QueryFilters } from './aws.interfaces';
 
 @Injectable({  })
 export class AWSService {
@@ -84,7 +84,7 @@ export class AWSService {
   
   }
 
-  getQueryFilterExpression(filters: QueryFilter[]): GetQueryFilterExpression {
+  getQueryFilterExpression(filters: QueryFilters[]): GetQueryFilterExpression {
     if (!filters || filters.length < 1) {
       return { filterExpression: undefined, expressionNames: undefined, expressionValues: undefined };
     }
@@ -94,23 +94,49 @@ export class AWSService {
     let expressionValues = {};
 
     filters.forEach((filter, index) => {
-      const keyExpression = filter.key.toLowerCase();
+      filterExpression = filterExpression + '(';
+      filter.filters.forEach((f, fIndex) => {
+        const keyExpression = f.key.toLowerCase();
 
-      if (index > 0) {
-        filterExpression = filterExpression + ' ' + filter.condition + ' ';
+        switch (f.operator) {
+          case FilterOperator.EQ:
+            filterExpression = filterExpression + '#' + keyExpression + ' = :' + keyExpression;
+            break;
+          case FilterOperator.CONTAINS:
+            filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
+            break;
+        }
+
+        if (fIndex >= (filter.filters.length - 1)) {
+          filterExpression = filterExpression + ' ' + filter.condition + ' ';
+        }
+
+        expressionNames['#' + keyExpression] = f.key;
+        expressionValues[':' + keyExpression] = f.value;
+      });
+      filterExpression = filterExpression + ')';
+
+      if (index >= (filters.length - 1)) {
+        filterExpression = filterExpression + ' ' + 'AND' + ' ';
       }
 
-      switch (filter.operator) {
-        case FilterOperator.EQ:
-          filterExpression = filterExpression + '#' + keyExpression + ' = :' + keyExpression;
-          break;
-        case FilterOperator.CONTAINS:
-          filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
-          break;
-      }
+      // const keyExpression = filter.key.toLowerCase();
 
-      expressionNames['#' + keyExpression] = filter.key;
-      expressionValues[':' + keyExpression] = filter.value;
+      // if (index > 0) {
+      //   filterExpression = filterExpression + ' ' + filter.condition + ' ';
+      // }
+
+      // switch (filter.operator) {
+      //   case FilterOperator.EQ:
+      //     filterExpression = filterExpression + '#' + keyExpression + ' = :' + keyExpression;
+      //     break;
+      //   case FilterOperator.CONTAINS:
+      //     filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
+      //     break;
+      // }
+
+      // expressionNames['#' + keyExpression] = filter.key;
+      // expressionValues[':' + keyExpression] = filter.value;
     });
 
     return { filterExpression, expressionNames, expressionValues };

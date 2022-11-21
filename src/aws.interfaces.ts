@@ -39,6 +39,10 @@ export interface QueryFilter {
     key: string;
     operator: FilterOperator;
     value: any;
+}
+
+export interface QueryFilters {
+    filters: QueryFilter[];
     condition: 'OR' | 'AND';
 }
 
