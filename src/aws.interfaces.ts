@@ -40,3 +40,10 @@ export interface QueryFilter {
     operator: FilterOperator;
     value: any;
 }
+
+export interface GetQueryFilterExpression {
+    filterExpression: string;
+    expressionNames: {[key: string]: any};
+    expressionValues: {[key: string]: any};
+
+}

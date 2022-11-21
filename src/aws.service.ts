@@ -1,8 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import * as AWS from 'aws-sdk';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
-import exp from 'constants';
-import { AWSModuleOptions, FilterOperator, QueryFilter } from './aws.interfaces';
+import { AWSModuleOptions, FilterOperator, GetQueryFilterExpression, QueryFilter } from './aws.interfaces';
 
 @Injectable({  })
 export class AWSService {
@@ -85,7 +84,7 @@ export class AWSService {
   
   }
 
-  getQueryFilterExpression(filters: QueryFilter[], condition: 'AND' | 'OR') {
+  getQueryFilterExpression(filters: QueryFilter[], condition: 'AND' | 'OR'): GetQueryFilterExpression {
     let filterExpression = '';
     let expressionNames = {};
     let expressionValues = {};
@@ -110,7 +109,7 @@ export class AWSService {
       expressionValues[':' + keyExpression] = filter.value;
     });
 
-    
+    return { filterExpression, expressionNames, expressionValues };
   }
 
 }

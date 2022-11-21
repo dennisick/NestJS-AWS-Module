@@ -98,6 +98,7 @@ let AWSService = class AWSService {
             expressionNames['#' + keyExpression] = filter.key;
             expressionValues[':' + keyExpression] = filter.value;
         });
+        return { filterExpression, expressionNames, expressionValues };
     }
 };
 __decorate([
