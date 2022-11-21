@@ -6,5 +6,5 @@ export declare class AWSService {
     getDynamoClient(): AWS.DynamoDB.DocumentClient;
     getEmailClient(): AWS.SES;
     getUpdateInput(tableName: string, key: DocumentClient.Key, data: Object): DocumentClient.UpdateItemInput;
-    getQueryFilterExpression(filters: QueryFilter[], condition: 'AND' | 'OR'): GetQueryFilterExpression;
+    getQueryFilterExpression(filters: QueryFilter[]): GetQueryFilterExpression;
 }

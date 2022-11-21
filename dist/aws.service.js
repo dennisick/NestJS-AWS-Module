@@ -78,7 +78,7 @@ let AWSService = class AWSService {
         }
         return input;
     }
-    getQueryFilterExpression(filters, condition) {
+    getQueryFilterExpression(filters) {
         if (!filters || filters.length < 1) {
             return { filterExpression: undefined, expressionNames: undefined, expressionValues: undefined };
         }
@@ -87,6 +87,9 @@ let AWSService = class AWSService {
         let expressionValues = {};
         filters.forEach((filter, index) => {
             const keyExpression = filter.key.toLowerCase();
+            if (index > 0) {
+                filterExpression = filterExpression + ' ' + filter.condition + ' ';
+            }
             switch (filter.operator) {
                 case aws_interfaces_1.FilterOperator.EQ:
                     filterExpression = filterExpression + '#' + keyExpression + ' = :' + keyExpression;
@@ -94,9 +97,6 @@ let AWSService = class AWSService {
                 case aws_interfaces_1.FilterOperator.CONTAINS:
                     filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
                     break;
-            }
-            if (index < (filters.length - 1)) {
-                filterExpression = filterExpression + ' ' + condition + ' ';
             }
             expressionNames['#' + keyExpression] = filter.key;
             expressionValues[':' + keyExpression] = filter.value;

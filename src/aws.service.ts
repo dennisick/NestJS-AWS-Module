@@ -84,7 +84,7 @@ export class AWSService {
   
   }
 
-  getQueryFilterExpression(filters: QueryFilter[], condition: 'AND' | 'OR'): GetQueryFilterExpression {
+  getQueryFilterExpression(filters: QueryFilter[]): GetQueryFilterExpression {
     if (!filters || filters.length < 1) {
       return { filterExpression: undefined, expressionNames: undefined, expressionValues: undefined };
     }
@@ -96,6 +96,10 @@ export class AWSService {
     filters.forEach((filter, index) => {
       const keyExpression = filter.key.toLowerCase();
 
+      if (index > 0) {
+        filterExpression = filterExpression + ' ' + filter.condition + ' ';
+      }
+
       switch (filter.operator) {
         case FilterOperator.EQ:
           filterExpression = filterExpression + '#' + keyExpression + ' = :' + keyExpression;
@@ -103,10 +107,6 @@ export class AWSService {
         case FilterOperator.CONTAINS:
           filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
           break;
-      }
-
-      if (index < (filters.length - 1)) {
-        filterExpression = filterExpression + ' ' + condition + ' ';
       }
 
       expressionNames['#' + keyExpression] = filter.key;
