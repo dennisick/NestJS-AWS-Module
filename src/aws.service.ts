@@ -37,11 +37,11 @@ export class AWSService {
       TableName: tableName,
       Key: key,
       UpdateExpression: '',
-      ExpressionAttributeNames: {}
+      ExpressionAttributeNames: {},
     };
 
-    const set = Object.keys(data).filter(key => data[key]);
-    const remove = Object.keys(data).filter(key => !data[key]);
+    const set = Object.keys(data).filter(key => data[key] != undefined && data[key] != null);
+    const remove = Object.keys(data).filter(key => data[key] == undefined || data[key] == null);
 
     if (set.length > 0) {
       input.UpdateExpression = 'SET ';
@@ -105,6 +105,8 @@ export class AWSService {
           case FilterOperator.CONTAINS:
             filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
             break;
+          case FilterOperator.IN:
+            break;
         }
 
         if (fIndex < (filter.filters.length - 1)) {
@@ -119,27 +121,10 @@ export class AWSService {
       if (index < (filters.length - 1)) {
         filterExpression = filterExpression + ' ' + 'AND' + ' ';
       }
-
-      // const keyExpression = filter.key.toLowerCase();
-
-      // if (index > 0) {
-      //   filterExpression = filterExpression + ' ' + filter.condition + ' ';
-      // }
-
-      // switch (filter.operator) {
-      //   case FilterOperator.EQ:
-      //     filterExpression = filterExpression + '#' + keyExpression + ' = :' + keyExpression;
-      //     break;
-      //   case FilterOperator.CONTAINS:
-      //     filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
-      //     break;
-      // }
-
-      // expressionNames['#' + keyExpression] = filter.key;
-      // expressionValues[':' + keyExpression] = filter.value;
     });
 
     return { filterExpression, expressionNames, expressionValues };
   }
+
 
 }

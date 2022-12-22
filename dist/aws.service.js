@@ -40,10 +40,10 @@ let AWSService = class AWSService {
             TableName: tableName,
             Key: key,
             UpdateExpression: '',
-            ExpressionAttributeNames: {}
+            ExpressionAttributeNames: {},
         };
-        const set = Object.keys(data).filter(key => data[key]);
-        const remove = Object.keys(data).filter(key => !data[key]);
+        const set = Object.keys(data).filter(key => data[key] != undefined && data[key] != null);
+        const remove = Object.keys(data).filter(key => data[key] == undefined || data[key] == null);
         if (set.length > 0) {
             input.UpdateExpression = 'SET ';
             input.ExpressionAttributeValues = {};
@@ -95,6 +95,8 @@ let AWSService = class AWSService {
                         break;
                     case aws_interfaces_1.FilterOperator.CONTAINS:
                         filterExpression = filterExpression + 'contains(#' + keyExpression + ', :' + keyExpression + ')';
+                        break;
+                    case aws_interfaces_1.FilterOperator.IN:
                         break;
                 }
                 if (fIndex < (filter.filters.length - 1)) {
