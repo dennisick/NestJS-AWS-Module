@@ -16,10 +16,10 @@ const aws_interfaces_1 = require("./aws.interfaces");
 let AWSService = class AWSService {
     getDynamoClient() {
         return new AWS.DynamoDB.DocumentClient({
-            credentials: {
+            credentials: this.options.accessKeyId ? {
                 accessKeyId: this.options.accessKeyId,
                 secretAccessKey: this.options.secretKey
-            },
+            } : undefined,
             region: this.options.region,
             endpoint: this.options.endpoint
         });

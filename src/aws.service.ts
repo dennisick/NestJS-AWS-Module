@@ -11,10 +11,10 @@ export class AWSService {
 
   getDynamoClient(): AWS.DynamoDB.DocumentClient {
     return new AWS.DynamoDB.DocumentClient({
-      credentials: {
+      credentials: this.options.accessKeyId ? {
         accessKeyId: this.options.accessKeyId,
         secretAccessKey: this.options.secretKey
-      },
+      } : undefined,
       region: this.options.region,
       endpoint: this.options.endpoint
     });
@@ -125,6 +125,5 @@ export class AWSService {
 
     return { filterExpression, expressionNames, expressionValues };
   }
-
 
 }
